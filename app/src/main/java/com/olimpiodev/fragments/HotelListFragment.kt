@@ -30,6 +30,14 @@ class HotelListFragment : ListFragment(), HotelListView {
         presenter.showHotelDetails(hotel)
     }
 
+    fun search(text: String) {
+        presenter.searchHotels(text)
+    }
+
+    fun clearSearch() {
+        presenter.searchHotels("")
+    }
+
     interface OnHotelClickListener {
         fun onHotelClick(hotel: Hotel)
     }

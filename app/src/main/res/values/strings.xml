@@ -5,4 +5,7 @@
     <string name="action_new_hotel">Novo Hotel</string>
     <string name="action_info">Info</string>
     <string name="hint_search">Procurar por hotel</string>
+    <string name="about_title">Dominando Android</string>
+    <string name="about_message">Desenvolvido por nglauber</string>
+    <string name="about_button_site">Site</string>
 </resources>

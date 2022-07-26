@@ -13,6 +13,9 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:dialogTheme">@style/CustomDialog</item>
+
+        <!-- Custom background color selected item for list view-->
+        <item name="actionModeBackground">@color/colorActionMode</item>
     </style>
     <style name="CustomDialog" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">false</item>

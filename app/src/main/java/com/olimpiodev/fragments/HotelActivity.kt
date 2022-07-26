@@ -10,10 +10,12 @@ import androidx.appcompat.widget.SearchView
 
 class HotelActivity : AppCompatActivity(),
     HotelListFragment.OnHotelClickListener,
+    HotelListFragment.OnHotelDeletedListener,
     SearchView.OnQueryTextListener,
     MenuItem.OnActionExpandListener,
     HotelFormFragment.OnHotelSavedListener {
 
+    private var hotelIdSelected: Long = -1
     private var lastSearchTerm: String = ""
     private var searchView: SearchView? = null
 
@@ -29,11 +31,13 @@ class HotelActivity : AppCompatActivity(),
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(EXTRA_SEARCH_TERM, lastSearchTerm)
+        outState.putLong(EXTRA_HOTEL_ID_SELECTED, hotelIdSelected)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        lastSearchTerm = savedInstanceState?.getString(EXTRA_SEARCH_TERM) ?: ""
+        lastSearchTerm = savedInstanceState.getString(EXTRA_SEARCH_TERM) ?: ""
+        hotelIdSelected = savedInstanceState.getLong(EXTRA_HOTEL_ID_SELECTED) ?: 0
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -81,6 +85,7 @@ class HotelActivity : AppCompatActivity(),
 
     override fun onHotelClick(hotel: Hotel) {
         if (isTablet()) {
+            hotelIdSelected = hotel.id
             showDetailsFragment(hotel.id)
         }
         if (isSmartphone()) {
@@ -109,9 +114,22 @@ class HotelActivity : AppCompatActivity(),
 
     companion object {
         const val EXTRA_SEARCH_TERM = "lastSearch"
+        const val EXTRA_HOTEL_ID_SELECTED = "lastSelectedId"
     }
 
     override fun onHotelSaved(hotel: Hotel) {
         listFragment.search(lastSearchTerm)
+    }
+
+    override fun onHotelsDeleted(hotels: List<Hotel>) {
+        if (hotels.find { it.id == hotelIdSelected } != null) {
+            val fragment = supportFragmentManager.findFragmentByTag(HotelDetailsFragment.TAG_DETAILS)
+            if (fragment != null) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commit()
+            }
+        }
     }
 }

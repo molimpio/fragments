@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.ListFragment
+import com.google.android.material.snackbar.Snackbar
 import com.olimpiodev.fragments.model.Hotel
 import com.olimpiodev.fragments.mvp.presenter.HotelListPresenter
 import com.olimpiodev.fragments.mvp.view.HotelListView
@@ -133,6 +134,16 @@ class HotelListFragment : ListFragment(),
     override fun onDestroyActionMode(p0: ActionMode?) {
         actionMode = null
         presenter.hideDeleteMode()
+    }
+
+    override fun showMessageHotelsDeleted(count: Int) {
+        Snackbar.make(listView,
+            getString(R.string.message_hotels_deleted, count),
+            Snackbar.LENGTH_SHORT)
+            .setAction(R.string.undo) {
+                presenter.undoDelete()
+            }
+            .show()
     }
 
     interface OnHotelDeletedListener {

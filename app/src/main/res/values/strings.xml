@@ -17,4 +17,6 @@
         <item quantity="one">1 selecionado</item>
         <item quantity="other">%d selecionados</item>
     </plurals>
+    <string name="message_hotels_deleted">%d itens excluídos.</string>
+    <string name="undo">Desfazer</string>
 </resources>
